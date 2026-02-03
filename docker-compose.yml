@@ -1,0 +1,21 @@
+services:
+  parser:
+    build:
+      context: .
+      dockerfile: Dockerfile.parser
+    ports:
+      - "50051:50051"
+    volumes:
+      - ./data:/app/data
+
+  scraper:
+    build:
+      context: .
+      dockerfile: Dockerfile.scraper
+    depends_on:
+      - parser
+    environment:
+      - PARSER_ADDR=parser:50051
+    volumes:
+      - ./data:/app/data
+    # scraper runs and exits (job-style)

@@ -1,0 +1,29 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+# Install deps first for better layer caching
+COPY requirements.txt .
+FROM python:3.11-slim
+
+WORKDIR /app
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy what the parser needs
+COPY parser_service.py .
+COPY book_parser_pb2.py .
+COPY book_parser_pb2_grpc.py .
+COPY book_parser.proto .
+
+# gRPC port
+EXPOSE 50051
+
+CMD ["python", "parser_service.py"]

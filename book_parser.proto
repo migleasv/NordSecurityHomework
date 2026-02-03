@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package bookparser;
+
+// Message representing structured book data
+message Book {
+  string name = 1;
+  string availability = 2;
+  string upc = 3;
+  double price_excl_tax = 4;
+  double tax = 5;
+}
+
+// Request contains raw HTML from a product page
+message ParseBookRequest {
+  string html = 1;
+}
+
+// Response contains the parsed Book object
+message ParseBookResponse {
+  Book book = 1;
+}
+
+// gRPC service responsible for parsing book pages
+service BookParserService {
+  rpc ParseBook (ParseBookRequest) returns (ParseBookResponse);
+}

@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+
+data/
+*.json
+
+patch.json
+patch-false.json
+
+Nord Security Homework.code-workspace
